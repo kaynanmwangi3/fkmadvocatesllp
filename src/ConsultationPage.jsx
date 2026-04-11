@@ -171,7 +171,12 @@ const ConsultationPage = () => {
           )}
         </motion.div>
         
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem', marginTop: '6rem' }}>
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: window.innerWidth < 768 ? '1fr' : 'repeat(3, 1fr)', 
+          gap: window.innerWidth < 768 ? '1rem' : '2rem', 
+          marginTop: window.innerWidth < 768 ? '3rem' : '6rem' 
+        }}>
           {[
             { title: "Response Time", desc: "Guaranteed contact within 24 business hours." },
             { title: "Privilege", desc: "All communications are protected by attorney-client privilege." },
@@ -182,7 +187,11 @@ const ConsultationPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 + i * 0.1 }}
-              style={{ textAlign: 'center', padding: '2rem' }}
+              style={{ 
+                textAlign: 'center', 
+                padding: window.innerWidth < 768 ? '1.5rem' : '2rem',
+                borderBottom: window.innerWidth < 768 && i !== 2 ? '1px solid var(--glass-border)' : 'none'
+              }}
             >
               <h4 style={{ color: 'var(--accent-purple)', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '1rem' }}>{item.title}</h4>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>{item.desc}</p>

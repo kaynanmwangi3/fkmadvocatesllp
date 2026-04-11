@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
+import heroImg from '../assets/scales-of-justice-stockcake.jpg';
 
 const HeroSection = () => {
   const containerRef = useRef(null);
@@ -164,7 +165,7 @@ const HeroSection = () => {
             zIndex: 1
           }} />
           <motion.img 
-            src="/src/assets/scales-of-justice-stockcake.jpg" 
+            src={heroImg} 
             alt="Scales of justice"
             className="statue-image"
             style={{

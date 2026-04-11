@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
+import trustImg from './assets/1000155572.jpg';
 
 const TrustSection = () => {
   const containerRef = useRef(null);
@@ -47,7 +48,7 @@ const TrustSection = () => {
           zIndex: 1
         }} />
         <img 
-          src="/src/assets/1000155572.jpg" 
+          src={trustImg} 
           alt="Legal background" 
           style={{ width: '100%', height: '120%', objectFit: 'cover', opacity: 0.8 }}
         />

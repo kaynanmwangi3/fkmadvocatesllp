@@ -8,6 +8,7 @@ import BlogPage from './BlogPage';
 import TeamPage from './TeamPage';
 import ConsultationPage from './ConsultationPage';
 import Cursor from './components/Cursor';
+import ScrollToTop from './components/ScrollToTop';
 import './App.css';
 
 // Wrapper to handle Lenis and Transitions
@@ -63,6 +64,7 @@ const AppContent = () => {
 
   return (
     <div className="app-wrapper" ref={streakRef} style={{ position: 'relative' }}>
+      <ScrollToTop />
       {/* Cinematic Background */}
       <div className="cinematic-bg" style={{ zIndex: -1 }}>
         <div className="bg-glow-1" />
