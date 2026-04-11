@@ -1,0 +1,225 @@
+/* FKM Premium Design System */
+
+.app-wrapper {
+  position: relative;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  overflow: hidden;
+}
+
+.cinematic-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.bg-glow-1 {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(156, 39, 176, 0.25) 0%, transparent 70%);
+  filter: blur(140px);
+  border-radius: 50%;
+  animation: pulse 12s infinite alternate;
+}
+
+.bg-glow-2 {
+  position: absolute;
+  bottom: -10%;
+  right: -10%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(65, 105, 225, 0.2) 0%, transparent 70%);
+  filter: blur(140px);
+  border-radius: 50%;
+  animation: pulse 15s infinite alternate-reverse;
+  animation-delay: 2s;
+}
+
+.bg-noise {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png');
+  opacity: 0.05;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1) translate(0, 0); opacity: 0.4; }
+  100% { transform: scale(1.3) translate(5%, 5%); opacity: 0.7; }
+}
+
+/* Transitions */
+.page-transition-wrapper {
+  width: 100%;
+}
+
+/* Logo Animation classes */
+.logo-initial {
+  opacity: 0;
+  filter: blur(10px);
+}
+
+.logo-reveal {
+  opacity: 1;
+  filter: blur(0);
+  transition: opacity 2s ease, filter 2s ease;
+}
+
+.desktop-only {
+  display: flex !important;
+}
+
+.mobile-menu-toggle {
+  display: none !important;
+}
+
+@media (max-width: 991px) {
+  .desktop-only {
+    display: none !important;
+  }
+  
+  .mobile-menu-toggle {
+    display: flex !important;
+  }
+}
+
+.nav-item {
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-item:hover {
+  color: var(--text-primary);
+}
+.btn-premium {
+  position: relative;
+  padding: 14px 32px;
+  background: var(--accent-purple);
+  color: white;
+  border: none !important;
+  text-decoration: none !important;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  border-radius: 2px;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(106, 13, 173, 0.2);
+}
+
+.btn-premium:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px var(--accent-purple-glow);
+  background: #7b1fa2; /* Slightly brighter on hover */
+}
+
+.btn-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.6s;
+}
+
+.btn-premium:hover::before {
+  left: 100%;
+}
+
+/* Base Mobile Overrides */
+@media (max-width: 991px) {
+  .header-container {
+    padding: 0 1.5rem !important;
+  }
+  
+  .nav {
+    display: none !important; /* Hide standard nav on mobile */
+  }
+  
+  .hero-container, 
+  .trust-container, 
+  .team-container, 
+  .contact-container,
+  .blog-main-content {
+    grid-template-columns: 1fr !important;
+    gap: 3rem !important;
+    padding-top: 5rem !important;
+  }
+  
+  .hero-title {
+    font-size: 3rem !important;
+  }
+  
+  .glass-card {
+    padding: 1.5rem !important;
+  }
+  
+  section {
+    padding: 5rem 1rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.2rem !important;
+  }
+  
+  .btn-premium {
+    width: 100%;
+    padding: 12px 20px;
+  }
+}
+
+/* Link underline animation */
+.link-underlined {
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+}
+
+.link-underlined::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: var(--accent-purple);
+  transition: width 0.3s ease;
+}
+
+.link-underlined:hover::after {
+  width: 100%;
+}
+
+/* Glass Card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  padding: 2.5rem;
+  transition: all 0.5s ease;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.glass-card:hover {
+  border-color: var(--accent-purple);
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(156, 39, 176, 0.15);
+}
