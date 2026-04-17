@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import emailjs from 'emailjs-com';
+import emailjs from '@emailjs/browser';
 import Header from './components/Header';
 import Footer from './Footer';
 
@@ -80,12 +80,18 @@ const ConsultationPage = () => {
     };
 
     try {
-      const response = await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        templateParams,
-        EMAILJS_PUBLIC_KEY
-      );
+      const timeoutMs = 12000;
+      const response = await Promise.race([
+        emailjs.send(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_TEMPLATE_ID,
+          templateParams,
+          EMAILJS_PUBLIC_KEY
+        ),
+        new Promise((_, reject) => {
+          setTimeout(() => reject(new Error(`Email request timeout after ${timeoutMs}ms`)), timeoutMs);
+        })
+      ]);
 
       console.info('EmailJS success:', response.status, response.text);
       setFormData({
