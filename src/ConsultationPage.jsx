@@ -5,9 +5,10 @@ import Header from './components/Header';
 import Footer from './Footer';
 
 const ConsultationPage = () => {
-  const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-  const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-  const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+  const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || import.meta.env.VITE_EMAIL_JS_SERVICE_ID;
+  const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || import.meta.env.VITE_EMAIL_JS_TEMPLATE_ID;
+  const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || import.meta.env.VITE_EMAIL_JS_PUBLIC_KEY;
+  const maintenanceErrorMessage = 'We are currently having a server maintenance, Call our customer care form now. Sorry for the inconvinience.';
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -51,15 +52,15 @@ const ConsultationPage = () => {
 
     if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
       const missingVars = [
-        !EMAILJS_SERVICE_ID && 'VITE_EMAILJS_SERVICE_ID',
-        !EMAILJS_TEMPLATE_ID && 'VITE_EMAILJS_TEMPLATE_ID',
-        !EMAILJS_PUBLIC_KEY && 'VITE_EMAILJS_PUBLIC_KEY'
+        !EMAILJS_SERVICE_ID && 'VITE_EMAILJS_SERVICE_ID / VITE_EMAIL_JS_SERVICE_ID',
+        !EMAILJS_TEMPLATE_ID && 'VITE_EMAILJS_TEMPLATE_ID / VITE_EMAIL_JS_TEMPLATE_ID',
+        !EMAILJS_PUBLIC_KEY && 'VITE_EMAILJS_PUBLIC_KEY / VITE_EMAIL_JS_PUBLIC_KEY'
       ].filter(Boolean);
 
       const errorMessage = `Email setup is incomplete. Missing: ${missingVars.join(', ')}`;
       console.error(errorMessage);
       setSubmitStatus('error');
-      setSubmitError(errorMessage);
+      setSubmitError(maintenanceErrorMessage);
       return;
     }
 
@@ -98,8 +99,9 @@ const ConsultationPage = () => {
     } catch (error) {
       const details = error?.text || error?.message || 'Unknown EmailJS error';
       console.error('EmailJS failed:', error);
+      console.error('EmailJS failure details:', details);
       setSubmitStatus('error');
-      setSubmitError(`Failed to send request. ${details}`);
+      setSubmitError(maintenanceErrorMessage);
     } finally {
       setIsSubmitting(false);
     }

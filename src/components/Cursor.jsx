@@ -106,7 +106,7 @@ const Cursor = () => {
           height: isHovering ? 60 : 30,
           opacity: isHovering ? 1 : 0.8,
           scale: isClicking ? 0.8 : 1,
-          borderColor: isHovering ? '#9c27b0' : ringBorder,
+          borderColor: isDarkZone ? '#ffffff' : (isHovering ? '#9c27b0' : ringBorder),
           boxShadow: isHovering ? '0 0 25px rgba(156, 39, 176, 0.8)' : 'none',
         }}
         transition={{ type: 'spring', damping: 25, stiffness: 250 }}
