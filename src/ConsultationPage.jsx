@@ -5,9 +5,39 @@ import Header from './components/Header';
 import Footer from './Footer';
 
 const ConsultationPage = () => {
-  const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || import.meta.env.VITE_EMAIL_JS_SERVICE_ID;
-  const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || import.meta.env.VITE_EMAIL_JS_TEMPLATE_ID;
-  const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || import.meta.env.VITE_EMAIL_JS_PUBLIC_KEY;
+  const normalizeEnvValue = (rawValue, expectedVarName) => {
+    if (!rawValue) return '';
+    const value = String(rawValue).trim();
+
+    // Handles accidental cases where users paste `NAME=value` as the env value in hosting dashboards.
+    const expectedPrefix = `${expectedVarName}=`;
+    if (value.startsWith(expectedPrefix)) {
+      return value.slice(expectedPrefix.length).trim();
+    }
+
+    return value;
+  };
+
+  const serviceCandidates = [
+    normalizeEnvValue(import.meta.env.VITE_EMAILJS_SERVICE_ID, 'VITE_EMAILJS_SERVICE_ID'),
+    normalizeEnvValue(import.meta.env.VITE_EMAIL_JS_SERVICE_ID, 'VITE_EMAIL_JS_SERVICE_ID')
+  ].filter(Boolean);
+
+  const templateCandidates = [
+    normalizeEnvValue(import.meta.env.VITE_EMAILJS_TEMPLATE_ID, 'VITE_EMAILJS_TEMPLATE_ID'),
+    normalizeEnvValue(import.meta.env.VITE_EMAIL_JS_TEMPLATE_ID, 'VITE_EMAIL_JS_TEMPLATE_ID')
+  ].filter(Boolean);
+
+  const publicKeyCandidates = [
+    normalizeEnvValue(import.meta.env.VITE_EMAILJS_PUBLIC_KEY, 'VITE_EMAILJS_PUBLIC_KEY'),
+    normalizeEnvValue(import.meta.env.VITE_EMAIL_JS_PUBLIC_KEY, 'VITE_EMAIL_JS_PUBLIC_KEY')
+  ].filter(Boolean);
+
+  const EMAILJS_SERVICE_ID =
+    serviceCandidates.find((id) => id.startsWith('service_')) || serviceCandidates[0] || '';
+  const EMAILJS_TEMPLATE_ID =
+    templateCandidates.find((id) => id.startsWith('template_')) || templateCandidates[0] || '';
+  const EMAILJS_PUBLIC_KEY = publicKeyCandidates[0] || '';
   const maintenanceErrorMessage = 'We are currently having a server maintenance, Call our customer care form now. Sorry for the inconvinience.';
 
   const [formData, setFormData] = useState({
@@ -63,6 +93,12 @@ const ConsultationPage = () => {
       setSubmitError(maintenanceErrorMessage);
       return;
     }
+
+    console.info('EmailJS resolved config:', {
+      serviceId: EMAILJS_SERVICE_ID,
+      templateId: EMAILJS_TEMPLATE_ID,
+      publicKeyPreview: EMAILJS_PUBLIC_KEY ? `${EMAILJS_PUBLIC_KEY.slice(0, 6)}...` : ''
+    });
 
     setIsSubmitting(true);
 
