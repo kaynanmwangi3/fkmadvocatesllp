@@ -1,43 +1,9 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import emailjs from '@emailjs/browser';
 import Header from './components/Header';
 import Footer from './Footer';
 
 const ConsultationPage = () => {
-  const normalizeEnvValue = (rawValue, expectedVarName) => {
-    if (!rawValue) return '';
-    const value = String(rawValue).trim();
-
-    // Handles accidental cases where users paste `NAME=value` as the env value in hosting dashboards.
-    const expectedPrefix = `${expectedVarName}=`;
-    if (value.startsWith(expectedPrefix)) {
-      return value.slice(expectedPrefix.length).trim();
-    }
-
-    return value;
-  };
-
-  const serviceCandidates = [
-    normalizeEnvValue(import.meta.env.VITE_EMAILJS_SERVICE_ID, 'VITE_EMAILJS_SERVICE_ID'),
-    normalizeEnvValue(import.meta.env.VITE_EMAIL_JS_SERVICE_ID, 'VITE_EMAIL_JS_SERVICE_ID')
-  ].filter(Boolean);
-
-  const templateCandidates = [
-    normalizeEnvValue(import.meta.env.VITE_EMAILJS_TEMPLATE_ID, 'VITE_EMAILJS_TEMPLATE_ID'),
-    normalizeEnvValue(import.meta.env.VITE_EMAIL_JS_TEMPLATE_ID, 'VITE_EMAIL_JS_TEMPLATE_ID')
-  ].filter(Boolean);
-
-  const publicKeyCandidates = [
-    normalizeEnvValue(import.meta.env.VITE_EMAILJS_PUBLIC_KEY, 'VITE_EMAILJS_PUBLIC_KEY'),
-    normalizeEnvValue(import.meta.env.VITE_EMAIL_JS_PUBLIC_KEY, 'VITE_EMAIL_JS_PUBLIC_KEY')
-  ].filter(Boolean);
-
-  const EMAILJS_SERVICE_ID =
-    serviceCandidates.find((id) => id.startsWith('service_')) || serviceCandidates[0] || '';
-  const EMAILJS_TEMPLATE_ID =
-    templateCandidates.find((id) => id.startsWith('template_')) || templateCandidates[0] || '';
-  const EMAILJS_PUBLIC_KEY = publicKeyCandidates[0] || '';
   const maintenanceErrorMessage = 'We are currently having a server maintenance, Call our customer care form now. Sorry for the inconvinience.';
 
   const [formData, setFormData] = useState({
@@ -80,56 +46,61 @@ const ConsultationPage = () => {
     setSubmitError('');
     setSubmitStatus(null);
 
-    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
-      const missingVars = [
-        !EMAILJS_SERVICE_ID && 'VITE_EMAILJS_SERVICE_ID / VITE_EMAIL_JS_SERVICE_ID',
-        !EMAILJS_TEMPLATE_ID && 'VITE_EMAILJS_TEMPLATE_ID / VITE_EMAIL_JS_TEMPLATE_ID',
-        !EMAILJS_PUBLIC_KEY && 'VITE_EMAILJS_PUBLIC_KEY / VITE_EMAIL_JS_PUBLIC_KEY'
-      ].filter(Boolean);
-
-      const errorMessage = `Email setup is incomplete. Missing: ${missingVars.join(', ')}`;
-      console.error(errorMessage);
-      setSubmitStatus('error');
-      setSubmitError(maintenanceErrorMessage);
-      return;
-    }
-
-    console.info('EmailJS resolved config:', {
-      serviceId: EMAILJS_SERVICE_ID,
-      templateId: EMAILJS_TEMPLATE_ID,
-      publicKeyPreview: EMAILJS_PUBLIC_KEY ? `${EMAILJS_PUBLIC_KEY.slice(0, 6)}...` : ''
-    });
-
     setIsSubmitting(true);
 
-    // Include a few key aliases to tolerate variable-name differences in EmailJS templates.
-    const templateParams = {
+    const payload = {
       fullName: formData.fullName,
-      name: formData.fullName,
       email: formData.email,
       phone: formData.phone,
       legalIssue: formData.legalIssue,
-      legalissue: formData.legalIssue,
-      legallssue: formData.legalIssue,
       message: formData.message,
-      time: new Date().toLocaleString()
+      time: new Date().toISOString()
     };
 
     try {
       const timeoutMs = 12000;
-      const response = await Promise.race([
-        emailjs.send(
-          EMAILJS_SERVICE_ID,
-          EMAILJS_TEMPLATE_ID,
-          templateParams,
-          EMAILJS_PUBLIC_KEY
-        ),
-        new Promise((_, reject) => {
-          setTimeout(() => reject(new Error(`Email request timeout after ${timeoutMs}ms`)), timeoutMs);
-        })
-      ]);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-      console.info('EmailJS success:', response.status, response.text);
+      const apiBase = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
+      const endpointCandidates = apiBase
+        ? [`${apiBase}/api/send-consultation`, `${apiBase}/api/send-consultation.js`]
+        : import.meta.env.DEV
+          ? [
+              'http://localhost:3000/api/send-consultation',
+              'http://localhost:3000/api/send-consultation.js',
+              '/api/send-consultation',
+              '/api/send-consultation.js'
+            ]
+          : ['/api/send-consultation', '/api/send-consultation.js'];
+      let response;
+      let data = {};
+
+      for (const endpoint of endpointCandidates) {
+        response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal: controller.signal
+        });
+
+        const contentType = response.headers.get('content-type') || '';
+        data = await response.json().catch(() => ({}));
+
+        // Keep trying if this endpoint is missing or if a rewrite returned HTML instead of JSON.
+        if (response.status === 404 || !contentType.includes('application/json')) {
+          continue;
+        }
+
+        break;
+      }
+
+      clearTimeout(timeoutId);
+      if (!response || !response.ok || !data?.success) {
+        throw new Error(data?.error || `Request failed with status ${response.status}`);
+      }
+
+      console.info('Resend success:', data);
       setFormData({
         fullName: '',
         email: '',
@@ -139,9 +110,7 @@ const ConsultationPage = () => {
       });
       setSubmitStatus('success');
     } catch (error) {
-      const details = error?.text || error?.message || 'Unknown EmailJS error';
-      console.error('EmailJS failed:', error);
-      console.error('EmailJS failure details:', details);
+      console.error('Resend send failed:', error);
       setSubmitStatus('error');
       setSubmitError(maintenanceErrorMessage);
     } finally {
