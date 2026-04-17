@@ -4,8 +4,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import HomePage from './HomePage';
-import BlogPage from './BlogPage';
-import TeamPage from './TeamPage';
 import ConsultationPage from './ConsultationPage';
 import Cursor from './components/Cursor';
 import ScrollToTop from './components/ScrollToTop';
@@ -72,10 +70,10 @@ const AppContent = () => {
         <div className="bg-noise" />
         
         {/* GSAP Light Streaks */}
-        <div className="light-streak" style={{ position: 'absolute', top: '20%', left: '-20%', width: '300px', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(156, 39, 176, 0.4), transparent)', filter: 'blur(5px)' }} />
+        <div className="light-streak" style={{ position: 'absolute', top: '20%', left: '-20%', width: '300px', height: '1px', background: 'linear-gradient(90deg, transparent, var(--accent-purple-glow), transparent)', filter: 'blur(5px)' }} />
         <div className="light-streak" style={{ position: 'absolute', top: '40%', left: '-20%', width: '400px', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)', filter: 'blur(3px)' }} />
         <div className="light-streak" style={{ position: 'absolute', top: '60%', left: '-20%', width: '500px', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(65, 105, 225, 0.3), transparent)', filter: 'blur(8px)' }} />
-        <div className="light-streak" style={{ position: 'absolute', top: '80%', left: '-20%', width: '200px', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(156, 39, 176, 0.2), transparent)', filter: 'blur(4px)' }} />
+        <div className="light-streak" style={{ position: 'absolute', top: '80%', left: '-20%', width: '200px', height: '1px', background: 'linear-gradient(90deg, transparent, var(--accent-purple-glow), transparent)', filter: 'blur(4px)' }} />
       </div>
       
       <AnimatePresence mode="wait">
@@ -83,16 +81,6 @@ const AppContent = () => {
           <Route path="/" element={
             <motion.div initial="initial" animate="animate" exit="exit" variants={pageVariants} transition={{ duration: 0.3, ease: "easeOut" }}>
               <HomePage />
-            </motion.div>
-          } />
-          <Route path="/blog" element={
-            <motion.div initial="initial" animate="animate" exit="exit" variants={pageVariants} transition={{ duration: 0.3, ease: "easeOut" }}>
-              <BlogPage />
-            </motion.div>
-          } />
-          <Route path="/team" element={
-            <motion.div initial="initial" animate="animate" exit="exit" variants={pageVariants} transition={{ duration: 0.3, ease: "easeOut" }}>
-              <TeamPage />
             </motion.div>
           } />
           <Route path="/consultation" element={

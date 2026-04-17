@@ -85,7 +85,7 @@ const ServicesSection = () => {
             Our Expertise
           </motion.span>
           <h2 style={{ fontSize: '3.5rem', fontWeight: 400, marginBottom: '1.5rem' }}>Precision in Practice</h2>
-          <p style={{ color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto', fontSize: '1.1rem' }}>
+          <p style={{ color: '#374151', maxWidth: '600px', margin: '0 auto', fontSize: '1.1rem', fontWeight: 500 }}>
             Tailored legal strategies delivered with the authority and depth of experience your case demands.
           </p>
         </motion.div>
@@ -118,7 +118,7 @@ const ServicesSection = () => {
                   border: 'none',
                   borderLeft: window.innerWidth < 768 ? 'none' : (activeService === key ? '2px solid var(--accent-purple)' : '2px solid var(--glass-border)'),
                   borderBottom: window.innerWidth < 768 ? (activeService === key ? '2px solid var(--accent-purple)' : '2px solid var(--glass-border)') : 'none',
-                  color: activeService === key ? 'var(--text-primary)' : 'var(--text-secondary)',
+                  color: activeService === key ? 'var(--text-primary)' : '#4b5563',
                   padding: '1.2rem 1.5rem',
                   textAlign: 'left',
                   fontSize: '1rem',
@@ -145,7 +145,7 @@ const ServicesSection = () => {
               >
                 <div style={{ fontSize: '2.5rem', marginBottom: '1.5rem' }}>{services[activeService].icon}</div>
                 <h3 style={{ fontSize: window.innerWidth < 768 ? '1.8rem' : '2.5rem', marginBottom: '1.5rem', fontWeight: 500 }}>{services[activeService].title}</h3>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', lineHeight: '1.8', marginBottom: '2rem', maxWidth: '800px' }}>
+                <p style={{ color: '#374151', fontSize: '1rem', lineHeight: '1.8', marginBottom: '2rem', maxWidth: '800px', fontWeight: 500 }}>
                   {services[activeService].description}
                 </p>
                 

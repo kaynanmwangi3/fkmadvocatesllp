@@ -98,6 +98,7 @@
 .nav-item:hover {
   color: var(--text-primary);
 }
+
 .btn-premium {
   position: relative;
   padding: 14px 32px;
@@ -207,19 +208,19 @@
 
 /* Glass Card */
 .glass-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(156, 163, 175, 0.35);
   border-radius: 4px;
   padding: 2.5rem;
   transition: all 0.5s ease;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 35px rgba(31, 41, 55, 0.1);
 }
 
 .glass-card:hover {
   border-color: var(--accent-purple);
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.88);
   transform: translateY(-8px);
   box-shadow: 0 20px 60px rgba(156, 39, 176, 0.15);
 }

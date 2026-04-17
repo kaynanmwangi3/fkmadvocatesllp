@@ -5,20 +5,34 @@ const Cursor = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
+  const [isDarkZone, setIsDarkZone] = useState(false);
 
   const springConfig = { damping: 25, stiffness: 250 };
   const cursorX = useSpring(0, springConfig);
   const cursorY = useSpring(0, springConfig);
+  const baseCursorColor = isDarkZone ? '#ffffff' : '#111111';
+  const baseCursorGlow = isDarkZone ? 'rgba(255, 255, 255, 0.9)' : 'rgba(17, 17, 17, 0.45)';
+  const ringBorder = isDarkZone ? 'rgba(255, 255, 255, 0.7)' : 'rgba(17, 17, 17, 0.55)';
 
   useEffect(() => {
+    const updateZoneTheme = (target) => {
+      if (target && target.closest && target.closest('[data-cursor-theme="dark"]')) {
+        setIsDarkZone(true);
+      } else {
+        setIsDarkZone(false);
+      }
+    };
+
     const mouseMove = (e) => {
       if (!isVisible) setIsVisible(true);
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
+      updateZoneTheme(e.target);
     };
 
     const handleHover = (e) => {
       const target = e.target;
+      updateZoneTheme(target);
       if (
         target.tagName === 'A' ||
         target.tagName === 'BUTTON' ||
@@ -76,13 +90,13 @@ const Cursor = () => {
           position: 'absolute',
           width: 8,
           height: 8,
-          backgroundColor: 'white',
+          backgroundColor: baseCursorColor,
           borderRadius: '50%',
           x: cursorX,
           y: cursorY,
           translateX: '-50%',
           translateY: '-50%',
-          boxShadow: '0 0 15px rgba(255, 255, 255, 1)',
+          boxShadow: `0 0 15px ${baseCursorGlow}`,
         }}
       />
       {/* Outer ring */}
@@ -92,13 +106,13 @@ const Cursor = () => {
           height: isHovering ? 60 : 30,
           opacity: isHovering ? 1 : 0.8,
           scale: isClicking ? 0.8 : 1,
-          borderColor: isHovering ? '#9c27b0' : 'rgba(255, 255, 255, 0.6)',
+          borderColor: isHovering ? '#9c27b0' : ringBorder,
           boxShadow: isHovering ? '0 0 25px rgba(156, 39, 176, 0.8)' : 'none',
         }}
         transition={{ type: 'spring', damping: 25, stiffness: 250 }}
         style={{
           position: 'absolute',
-          border: '1.5px solid white',
+          border: `1.5px solid ${baseCursorColor}`,
           borderRadius: '50%',
           x: cursorX,
           y: cursorY,

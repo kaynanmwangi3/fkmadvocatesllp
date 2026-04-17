@@ -1,206 +1,227 @@
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useRef } from 'react';
-import heroImg from '../assets/scales-of-justice-stockcake.jpg';
+import heroImg from '../assets/legal-sign-design-with-scales-of-justice-symbol.webp';
 
 const HeroSection = () => {
   const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"]
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-
-  const tagline = "Protecting Your Legal Interests in Kenya & Beyond";
-  
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.08,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 15, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-    },
-  };
-
-  const letterVariants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: {
-      opacity: 1,
-      y: 0,
-    },
-  };
+  const isMobile = window.innerWidth < 992;
 
   return (
     <section ref={containerRef} className="hero" style={{
-      minHeight: window.innerWidth < 991 ? 'auto' : '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+      minHeight: isMobile ? 'auto' : '100vh',
       position: 'relative',
       overflow: 'hidden',
-      padding: window.innerWidth < 991 ? '8rem 1.5rem 3rem' : '4rem 2rem 0'
+      padding: isMobile ? '8.6rem 0.6rem 2.3rem' : '7.5rem 0.35rem 1.5rem',
+      background: '#f3f4f6'
     }}>
-      <motion.div style={{ y, opacity }} className="hero-background-parallax">
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          background: 'radial-gradient(circle at center, transparent 0%, var(--bg-primary) 100%)',
-          zIndex: 1
-        }} />
-      </motion.div>
-
       <div className="hero-container" style={{
-        maxWidth: '1200px',
+        maxWidth: '1720px',
         margin: '0 auto',
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-        gap: '4rem',
-        alignItems: 'center',
+        gridTemplateColumns: isMobile ? '1fr' : '1.02fr 0.98fr',
+        gap: isMobile ? '1.6rem' : '2rem',
+        alignItems: 'stretch',
         zIndex: 2,
-        width: '100%'
+        width: isMobile ? '100%' : 'calc(100% - 0.5rem)'
       }}>
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="hero-content"
-          style={{ order: window.innerWidth < 991 ? 2 : 1, position: 'relative', zIndex: 10 }}
+          style={{
+            order: 1,
+            padding: isMobile ? '0.4rem' : '0.9rem 0.4rem 0.9rem 0',
+            alignSelf: 'center'
+          }}
         >
-          <motion.h1 variants={itemVariants} className="hero-title" style={{
-            lineHeight: '1.1',
-            marginBottom: '2rem',
-            fontWeight: 400,
-            color: '#ffffff',
-            textShadow: '0 10px 30px rgba(0,0,0,0.5)'
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            background: '#f5f3ff',
+            color: '#6b21a8',
+            border: '1px solid #e9d5ff',
+            borderRadius: '999px',
+            padding: '0.5rem 0.9rem',
+            fontWeight: 600,
+            fontSize: '0.9rem',
+            marginBottom: '1.8rem'
           }}>
-            {tagline.split(" ").map((word, i) => (
-              <span key={i} style={{ display: 'inline-block', marginRight: '0.3em' }}>
-                {word.split("").map((char, j) => (
-                  <motion.span
-                    key={j}
-                    variants={letterVariants}
-                    style={{ 
-                      display: 'inline-block',
-                      background: 'linear-gradient(to bottom, #ffffff, #d1d1d6)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent'
-                    }}
-                  >
-                    {char}
-                  </motion.span>
-                ))}
-              </span>
-            ))}
-          </motion.h1>
-          
-          <motion.p variants={itemVariants} className="hero-subtitle" style={{
-            fontSize: '1.2rem', /* Slightly larger */
-            color: '#e2e2e7', /* Brighter */
-            maxWidth: '600px',
-            marginBottom: '2.5rem',
-            lineHeight: '1.8',
-            textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-          }}>
-            With over three decades of combined experience, FKM Advocates LLP provides 
-            comprehensive legal services with unwavering dedication.
-          </motion.p>
+            <span style={{ fontSize: '0.8rem' }}>●</span>
+            Trusted Legal Partners
+          </div>
 
-          <motion.div variants={itemVariants} style={{ marginBottom: '3rem' }}>
-            <ul className="practice-list" style={{
-              listStyle: 'none',
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '1.5rem',
-              color: 'var(--text-primary)',
-              fontSize: '0.8rem',
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em'
+          <h1 className="hero-title" style={{
+            lineHeight: '1.06',
+            marginBottom: '1.5rem',
+            fontWeight: 700,
+            color: '#0f172a',
+            fontSize: isMobile ? '2.1rem' : '3.7rem',
+            letterSpacing: '-0.03em'
+          }}>
+            Protecting Your Legal
+            <br />
+            Interests in{' '}
+            <span style={{
+              color: '#7e22ce',
+              textDecoration: 'underline',
+              textDecorationColor: '#e9d5ff',
+              textUnderlineOffset: '5px',
+              textDecorationThickness: '6px'
             }}>
-              <li><span style={{ color: 'var(--accent-purple)', marginRight: '8px' }}>•</span>Business Law</li>
-              <li><span style={{ color: 'var(--accent-purple)', marginRight: '8px' }}>•</span>Estate Law</li>
-              <li><span style={{ color: 'var(--accent-purple)', marginRight: '8px' }}>•</span>Litigation</li>
-            </ul>
-          </motion.div>
+              Kenya
+            </span>{' '}
+            &
+            <br />
+            Beyond
+          </h1>
 
-          <motion.div variants={itemVariants}>
-            <Link to="/consultation" className="btn-premium">
-              Free Consultation
+          <p className="hero-subtitle" style={{
+            fontSize: isMobile ? '1rem' : '1.2rem',
+            color: '#475569',
+            maxWidth: '760px',
+            marginBottom: '2rem',
+            lineHeight: '1.5'
+          }}>
+            With over three decades of combined experience, FKM Advocates LLP provides
+            comprehensive legal services with unwavering dedication and exceptional results.
+          </p>
+
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '0.75rem',
+            marginBottom: '1.8rem'
+          }}>
+            <span style={{ padding: '0.56rem 0.95rem', border: '1px solid #dbe2ea', borderRadius: '10px', color: '#334155', fontWeight: 600, background: '#f8fafc', fontSize: '0.9rem' }}>Business Law</span>
+            <span style={{ padding: '0.56rem 0.95rem', border: '1px solid #dbe2ea', borderRadius: '10px', color: '#334155', fontWeight: 600, background: '#f8fafc', fontSize: '0.9rem' }}>Estate Law</span>
+            <span style={{ padding: '0.56rem 0.95rem', border: '1px solid #dbe2ea', borderRadius: '10px', color: '#334155', fontWeight: 600, background: '#f8fafc', fontSize: '0.9rem' }}>Litigation</span>
+          </div>
+
+          <div style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '0.8rem',
+            marginBottom: '2rem'
+          }}>
+            <Link to="/consultation" style={{
+              textDecoration: 'none',
+              background: 'linear-gradient(90deg, #7e22ce, #a855f7)',
+              color: '#ffffff',
+              borderRadius: '12px',
+              padding: '0.8rem 1.05rem',
+              fontWeight: 700,
+              fontSize: '0.92rem',
+              boxShadow: '0 10px 25px rgba(126, 34, 206, 0.35)'
+            }}>
+              Schedule Free Consultation &nbsp; →
             </Link>
-          </motion.div>
+
+            <a href="tel:+254700000000" style={{
+              textDecoration: 'none',
+              color: '#334155',
+              border: '1px solid #cbd5e1',
+              borderRadius: '12px',
+              padding: '0.8rem 1.05rem',
+              fontWeight: 700,
+              fontSize: '0.92rem',
+              background: '#ffffff'
+            }}>
+              ☎ &nbsp; +254 (0) 20 123 4567
+            </a>
+          </div>
+
+          <div style={{ borderTop: '1px solid #e5e7eb', paddingTop: '1.8rem', display: 'flex', gap: '4rem', flexWrap: 'wrap' }}>
+            <div>
+              <div style={{ fontSize: '2.1rem', fontWeight: 700, color: '#0f172a', lineHeight: 1 }}>7+</div>
+              <div style={{ color: '#64748b', fontSize: '1rem', marginTop: '0.2rem' }}>years</div>
+            </div>
+            <div>
+              <div style={{ fontSize: '2.1rem', fontWeight: 700, color: '#0f172a', lineHeight: 1 }}>95%</div>
+              <div style={{ color: '#64748b', fontSize: '1rem', marginTop: '0.2rem' }}>Success Rate</div>
+            </div>
+          </div>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-          className="hero-image" 
+          className="hero-image"
           style={{
             position: 'relative',
-            height: window.innerWidth < 991 ? '400px' : '600px',
-            overflow: 'hidden',
-            borderRadius: '2px',
-            order: window.innerWidth < 991 ? 1 : 2
+            height: isMobile ? '340px' : '100%',
+            minHeight: isMobile ? '340px' : '580px',
+            overflow: 'visible',
+            borderRadius: '24px',
+            order: 2,
+            border: '14px solid #ede9fe'
           }}
         >
-          <div className="image-overlay" style={{
+          <div style={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(to right, var(--bg-primary), transparent 40%)',
-            zIndex: 1
-          }} />
-          <motion.img 
-            src={heroImg} 
-            alt="Scales of justice"
-            className="statue-image"
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              brightness: '0.8'
-            }}
-            animate={{
-              y: [0, -10, 0],
-            }}
-            transition={{
-              duration: 10,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
+            borderRadius: '10px',
+            overflow: 'hidden',
+            boxShadow: '0 20px 45px rgba(15, 23, 42, 0.2)'
+          }}>
+            <motion.img
+              src={heroImg}
+              alt="Scales of justice"
+              className="statue-image"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center'
+              }}
+              animate={{
+                y: [0, -10, 0],
+              }}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+          </div>
+
+          <div style={{
+            position: 'absolute',
+            left: isMobile ? '0.7rem' : '-1.2rem',
+            bottom: isMobile ? '0.7rem' : '-1.2rem',
+            background: '#ffffff',
+            border: '1px solid #e5e7eb',
+            borderRadius: '14px',
+            padding: isMobile ? '0.8rem' : '1rem',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.8rem',
+            boxShadow: '0 12px 30px rgba(15, 23, 42, 0.12)',
+            zIndex: 30
+          }}>
+            <div style={{
+              width: '2.5rem',
+              height: '2.5rem',
+              borderRadius: '10px',
+              background: '#f3e8ff',
+              color: '#7e22ce',
+              display: 'grid',
+              placeItems: 'center',
+              fontSize: '1.2rem',
+              fontWeight: 700
+            }}>
+              ✉
+            </div>
+            <div>
+              <div style={{ color: '#334155', fontWeight: 700, fontSize: '1rem' }}>Available 24/7</div>
+              <div style={{ color: '#64748b', fontSize: '0.88rem' }}>info@fkmadvocates.co.ke</div>
+            </div>
+          </div>
         </motion.div>
       </div>
-      
-      {/* Cinematic bottom bar */}
-      <motion.div 
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: 1 }}
-        transition={{ duration: 1.5, delay: 2.5 }}
-        style={{
-          position: 'absolute',
-          bottom: '10%',
-          left: '2rem',
-          right: '2rem',
-          height: '1px',
-          background: 'linear-gradient(90deg, transparent, var(--glass-border), transparent)',
-          zIndex: 2
-        }}
-      />
     </section>
   );
 };

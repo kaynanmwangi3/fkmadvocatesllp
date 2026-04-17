@@ -1,0 +1,9 @@
+Email Service:
+    Gmail
+    Service ID: service_evkg5wu
+
+Email Template:
+    Contact Us
+    Template ID: template_saa4vuk
+
+Public Key=U1G7pzNCmMPdBAnWW

@@ -1,16 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 
 :root {
-  --bg-primary: #050508;
-  --bg-secondary: #0d0d15;
-  --bg-accent: #1a1a2e;
-  --text-primary: #ffffff; /* Pure white for better readability */
-  --text-secondary: #d1d1d6; /* Brighter gray */
-  --accent-purple: #9c27b0; /* More vibrant purple */
-  --accent-purple-glow: rgba(156, 39, 176, 0.4);
-  --glass-bg: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(255, 255, 255, 0.12);
-  
+--bg-primary: #f8f9fa;
+--bg-secondary: #ffffff;
+--bg-accent: #e9ecef;
+--text-primary: #1a1a1a;
+--text-secondary: #4b5563;
+--glass-bg: rgba(255, 255, 255, 0.7);
+--glass-border: rgba(200, 200, 200, 0.45);
+
+/* Shared */
+--accent-purple: #9c27b0;
+--accent-purple-glow: rgba(156, 39, 176, 0.4);
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -45,11 +47,11 @@ html {
 }
 
 html, body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
-  width: 100%;
+background-color: var(--bg-primary);
+color: var(--text-primary);
+font-family: 'Inter', sans-serif;
+overflow-x: hidden;
+width: 100%;
 }
 
 h1, h2, h3, h4, .serif {
@@ -94,7 +96,7 @@ h1, h2, h3, h4, .serif {
 }
 
 .text-gradient {
-  background: linear-gradient(to right, #fff, var(--text-secondary));
+  background: linear-gradient(to right, var(--text-primary), var(--text-secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

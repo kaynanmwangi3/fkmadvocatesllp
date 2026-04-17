@@ -1,9 +1,14 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import emailjs from 'emailjs-com';
 import Header from './components/Header';
 import Footer from './Footer';
 
 const ConsultationPage = () => {
+  const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+  const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+  const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -14,6 +19,7 @@ const ConsultationPage = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+  const [submitError, setSubmitError] = useState('');
 
   const legalIssueOptions = [
     'Select a legal issue type...',
@@ -40,11 +46,63 @@ const ConsultationPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitError('');
+    setSubmitStatus(null);
+
+    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+      const missingVars = [
+        !EMAILJS_SERVICE_ID && 'VITE_EMAILJS_SERVICE_ID',
+        !EMAILJS_TEMPLATE_ID && 'VITE_EMAILJS_TEMPLATE_ID',
+        !EMAILJS_PUBLIC_KEY && 'VITE_EMAILJS_PUBLIC_KEY'
+      ].filter(Boolean);
+
+      const errorMessage = `Email setup is incomplete. Missing: ${missingVars.join(', ')}`;
+      console.error(errorMessage);
+      setSubmitStatus('error');
+      setSubmitError(errorMessage);
+      return;
+    }
+
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+
+    // Include a few key aliases to tolerate variable-name differences in EmailJS templates.
+    const templateParams = {
+      fullName: formData.fullName,
+      name: formData.fullName,
+      email: formData.email,
+      phone: formData.phone,
+      legalIssue: formData.legalIssue,
+      legalissue: formData.legalIssue,
+      legallssue: formData.legalIssue,
+      message: formData.message,
+      time: new Date().toLocaleString()
+    };
+
+    try {
+      const response = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      );
+
+      console.info('EmailJS success:', response.status, response.text);
+      setFormData({
+        fullName: '',
+        email: '',
+        phone: '',
+        legalIssue: '',
+        message: ''
+      });
       setSubmitStatus('success');
-    }, 2000);
+    } catch (error) {
+      const details = error?.text || error?.message || 'Unknown EmailJS error';
+      console.error('EmailJS failed:', error);
+      setSubmitStatus('error');
+      setSubmitError(`Failed to send request. ${details}`);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const inputStyle = {
@@ -114,23 +172,25 @@ const ConsultationPage = () => {
               <div style={{ display: 'grid', gridTemplateColumns: window.innerWidth < 768 ? '1fr' : '1fr 1fr', gap: '2rem' }}>
                 <div>
                   <label style={labelStyle}>Full Name</label>
-                  <input type="text" name="fullName" required style={inputStyle} onFocus={(e) => e.target.style.borderColor = 'var(--accent-purple)'} onBlur={(e) => e.target.style.borderColor = 'var(--glass-border)'} />
+                  <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} required style={inputStyle} onFocus={(e) => e.target.style.borderColor = 'var(--accent-purple)'} onBlur={(e) => e.target.style.borderColor = 'var(--glass-border)'} />
                 </div>
                 <div>
                   <label style={labelStyle}>Email Address</label>
-                  <input type="email" name="email" required style={inputStyle} onFocus={(e) => e.target.style.borderColor = 'var(--accent-purple)'} onBlur={(e) => e.target.style.borderColor = 'var(--glass-border)'} />
+                  <input type="email" name="email" value={formData.email} onChange={handleChange} required style={inputStyle} onFocus={(e) => e.target.style.borderColor = 'var(--accent-purple)'} onBlur={(e) => e.target.style.borderColor = 'var(--glass-border)'} />
                 </div>
               </div>
               
               <div style={{ display: 'grid', gridTemplateColumns: window.innerWidth < 768 ? '1fr' : '1fr 1fr', gap: '2rem' }}>
                 <div>
                   <label style={labelStyle}>Phone Number</label>
-                  <input type="tel" name="phone" required style={inputStyle} onFocus={(e) => e.target.style.borderColor = 'var(--accent-purple)'} onBlur={(e) => e.target.style.borderColor = 'var(--glass-border)'} />
+                  <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required style={inputStyle} onFocus={(e) => e.target.style.borderColor = 'var(--accent-purple)'} onBlur={(e) => e.target.style.borderColor = 'var(--glass-border)'} />
                 </div>
                 <div>
                   <label style={labelStyle}>Legal Matter</label>
                   <select 
                     name="legalIssue" 
+                    value={formData.legalIssue}
+                    onChange={handleChange}
                     required 
                     style={{
                       ...inputStyle,
@@ -154,7 +214,7 @@ const ConsultationPage = () => {
 
               <div>
                 <label style={labelStyle}>Brief Description</label>
-                <textarea name="message" rows="5" style={inputStyle} onFocus={(e) => e.target.style.borderColor = 'var(--accent-purple)'} onBlur={(e) => e.target.style.borderColor = 'var(--glass-border)'}></textarea>
+                <textarea name="message" value={formData.message} onChange={handleChange} rows="5" style={inputStyle} onFocus={(e) => e.target.style.borderColor = 'var(--accent-purple)'} onBlur={(e) => e.target.style.borderColor = 'var(--glass-border)'}></textarea>
               </div>
 
               <div style={{ textAlign: 'center', marginTop: '1rem' }}>
@@ -166,6 +226,11 @@ const ConsultationPage = () => {
                 >
                   {isSubmitting ? 'Processing...' : 'Request Consultation'}
                 </button>
+                {submitStatus === 'error' && (
+                  <p style={{ color: '#ef4444', marginTop: '1rem', fontSize: '0.9rem' }}>
+                    {submitError || 'Failed to send request. Please try again.'}
+                  </p>
+                )}
               </div>
             </form>
           )}
