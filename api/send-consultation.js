@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ success: false, error: 'Method Not Allowed' });
   }
 
-  const toEmail = process.env.RESEND_TO_EMAIL || 'kaynanmwangi6@gmail.com';
+  const toEmail = process.env.RESEND_TO_EMAIL || 'Office@fkmadvocatesllp.com';
   const fromEmail = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 
   const { fullName, email, phone, legalIssue, message, time } = req.body || {};
