@@ -129,13 +129,13 @@ const HeroSection = () => {
               fontSize: '0.92rem',
               background: '#ffffff'
             }}>
-              ☎ &nbsp; +254 (0) 20 123 4567
+              ☎ &nbsp; +254 (7) 26 883 765
             </a>
           </div>
 
           <div style={{ borderTop: '1px solid #e5e7eb', paddingTop: '1.8rem', display: 'flex', gap: '4rem', flexWrap: 'wrap' }}>
             <div>
-              <div style={{ fontSize: '2.1rem', fontWeight: 700, color: '#0f172a', lineHeight: 1 }}>7+</div>
+              <div style={{ fontSize: '2.1rem', fontWeight: 700, color: '#0f172a', lineHeight: 1 }}>10+</div>
               <div style={{ color: '#64748b', fontSize: '1rem', marginTop: '0.2rem' }}>years</div>
             </div>
             <div>
@@ -217,7 +217,7 @@ const HeroSection = () => {
             </div>
             <div>
               <div style={{ color: '#334155', fontWeight: 700, fontSize: '1rem' }}>Available 24/7</div>
-              <div style={{ color: '#64748b', fontSize: '0.88rem' }}>info@fkmadvocates.co.ke</div>
+              <div style={{ color: '#64748b', fontSize: '0.88rem' }}>office@fkmadvocatesllp.com</div>
             </div>
           </div>
         </motion.div>

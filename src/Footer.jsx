@@ -99,15 +99,15 @@ const Footer = () => {
             <h4 style={{ fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '1rem', color: '#e879f9' }}>INQUIRIES</h4>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <li>
-                <div style={{ color: '#ffffff', fontWeight: 700, fontSize: isMobile ? '1rem' : '1rem' }}>⌖ &nbsp; Times Tower, Nairobi</div>
-                <div style={{ color: '#93c5fd', marginLeft: isMobile ? 0 : '1.6rem', marginTop: '0.2rem', fontSize: isMobile ? '0.95rem' : '1rem' }}>12th Floor, Haile Selassie Avenue</div>
+                <div style={{ color: '#ffffff', fontWeight: 700, fontSize: isMobile ? '1rem' : '1rem' }}>⌖ &nbsp; Kenrail Towers, Nairobi</div>
+                <div style={{ color: '#93c5fd', marginLeft: isMobile ? 0 : '1.6rem', marginTop: '0.2rem', fontSize: isMobile ? '0.95rem' : '1rem' }}>3rd Floor, Southern Wing, Suite SW-3.3A</div>
               </li>
               <li>
-                <div style={{ color: '#ffffff', fontWeight: 700, fontSize: isMobile ? '1rem' : '1rem' }}>⌕ &nbsp; +254 700 000 000</div>
+                <div style={{ color: '#ffffff', fontWeight: 700, fontSize: isMobile ? '1rem' : '1rem' }}>⌕ &nbsp; +254 726883765</div>
                 <div style={{ color: '#93c5fd', marginLeft: isMobile ? 0 : '1.6rem', marginTop: '0.2rem', fontSize: isMobile ? '0.95rem' : '1rem' }}>Available 24/7</div>
               </li>
               <li>
-                <div style={{ color: '#ffffff', fontWeight: 700, fontSize: isMobile ? '1rem' : '1rem' }}>✉ &nbsp; info@fkmadvocates.co.ke</div>
+                <div style={{ color: '#ffffff', fontWeight: 700, fontSize: isMobile ? '1rem' : '1rem' }}>✉ &nbsp; office@fkmadvocatesllp.com</div>
                 <div style={{ color: '#93c5fd', marginLeft: isMobile ? 0 : '1.6rem', marginTop: '0.2rem', fontSize: isMobile ? '0.95rem' : '1rem' }}>Quick Response</div>
               </li>
             </ul>

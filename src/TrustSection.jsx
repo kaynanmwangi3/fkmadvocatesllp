@@ -65,7 +65,7 @@ const TrustSection = () => {
             </h2>
 
             <p style={{ color: '#e2e8f0', fontSize: isMobile ? '1.05rem' : '1.2rem', lineHeight: '1.45', maxWidth: '820px', marginBottom: '1rem' }}>
-              For over <strong style={{ color: '#ffffff' }}>7 years</strong>, FKM Advocates LLP has been the cornerstone of legal excellence in Kenya,
+              For over <strong style={{ color: '#ffffff' }}>10 years</strong>, FKM Advocates LLP has been the cornerstone of legal excellence in Kenya,
               providing sophisticated counsel for complex challenges.
             </p>
             <p style={{ color: '#93c5fd', fontSize: isMobile ? '0.95rem' : '1rem', lineHeight: '1.6', maxWidth: '860px' }}>
@@ -75,7 +75,7 @@ const TrustSection = () => {
 
             <div style={{ marginTop: '2rem', borderTop: '1px solid rgba(148, 163, 184, 0.35)', paddingTop: '1.8rem', display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(3, minmax(0, 1fr))', gap: '1.4rem' }}>
               <div>
-                <div style={{ fontSize: isMobile ? '1.8rem' : '2.35rem', color: '#ffffff', fontWeight: 700, lineHeight: 1 }}>7</div>
+                <div style={{ fontSize: isMobile ? '1.8rem' : '2.35rem', color: '#ffffff', fontWeight: 700, lineHeight: 1 }}>10</div>
                 <div style={{ color: '#a5b4fc', fontWeight: 700, marginLeft: '2.1rem', marginTop: '-1.35rem' }}>+</div>
                 <div style={{ color: '#bfdbfe', marginTop: '0.2rem', fontSize: '0.95rem' }}>Years of Excellence</div>
               </div>

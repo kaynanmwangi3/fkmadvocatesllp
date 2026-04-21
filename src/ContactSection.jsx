@@ -7,22 +7,28 @@ const ContactSection = () => {
 
   const infoRows = [
     {
-      label: 'ADDRESS',
-      value: 'Times Tower, 12th Floor',
-      sub: 'Haile Selassie Avenue, Nairobi, Kenya',
+      label: 'HEADQUARTERS(HQ)',
+      value: 'Kenrail Towers, 3rd Floor, Southern Wing, Suite SW-3.3A',
+      sub: 'Mkungu Close, Off Parklands Rd',
       icon: '⌖'
     },
     {
       label: 'PHONE',
-      value: '+254 700 000 000',
+      value: '+254 726883765',
       sub: 'Available 24/7',
       icon: '⌕'
     },
     {
       label: 'EMAIL',
-      value: 'info@fkmadvocates.co.ke',
+      value: 'office@fkmadvocatesllp.com',
       sub: 'Response within 2 hours',
       icon: '✉'
+    },
+    {
+      label: 'BRANCH',
+      value: 'FKM ADVOCATES LLP, THIKA BUSINESS CENTER, 5th Floor, Suite no. 5-07,',
+      sub: ' Commercial Street PO BOX 76683-00508, Nairobi',
+      icon: '⌖'
     }
   ];
 
@@ -226,7 +232,7 @@ const ContactSection = () => {
               </div>
               <div>
                 <div style={{ color: '#0f172a', fontWeight: 700, fontSize: isMobile ? '0.95rem' : '1rem' }}>Visit Our Office</div>
-                <div style={{ color: '#64748b', fontSize: isMobile ? '0.85rem' : '0.9rem' }}>Times Tower, Heart of Nairobi CBD</div>
+                <div style={{ color: '#64748b', fontSize: isMobile ? '0.85rem' : '0.9rem' }}>Kenrail Towers, Parklands Rd</div>
               </div>
             </div>
           </motion.div>
